@@ -19,14 +19,17 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { api } from "src/boot/axios";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 import { StreamBarcodeReader } from "vue-barcode-reader";
-var phone = ref("");
+
 defineOptions({
   name: "IndexPage",
   data() {
-    return {};
+    return {
+      point: 0,
+    };
   },
   components: {
     StreamBarcodeReader,
@@ -35,17 +38,15 @@ defineOptions({
 
 function onDecode(phone) {
   console.log(`Decode text from QR code is ${phone}`);
-  const data = {
-    point: 2,
-  };
-  api
-    .patch(`/update/${phone}`, data)
-    .then(alert("Successfully🌈"))
-    .catch((err) => console.log(err));
+  router.push(`/update/${phone}`);
 }
 function onLoaded() {
   console.log(`Ready to start scanning barcodes`);
 }
+
+const onSubmit = (phone) => {
+  router.push(`/update/${phone}`);
+};
 </script>
 
 <style>
@@ -59,5 +60,8 @@ function onLoaded() {
 }
 .postion-screen-index {
   margin-top: 10px;
+}
+.updatepoint-index {
+  padding: 20px;
 }
 </style>

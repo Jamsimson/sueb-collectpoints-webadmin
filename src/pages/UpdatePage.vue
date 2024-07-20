@@ -36,7 +36,7 @@
     </div>
     <!-- Section info user -->
     <section>
-      <div>User Id: {{ currentRouteName.phone }}</div>
+      <div>User Id: {{ phone }}</div>
       <!-- conferm button  -->
     </section>
     <!-- Section butotn  -->
@@ -56,19 +56,30 @@
 </template>
 
 <script setup>
+import { useRoute } from "vue-router";
+import { api } from "src/boot/axios";
 import { ref } from "vue";
+const route = useRoute();
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 var point = ref(0);
+const phone = route.params.phone;
 defineOptions({
   name: "UpdatePage",
-  computed: {
-    currentRouteName() {
-      return this.$route.params;
-    },
-  },
 });
 
 const onSubmit = () => {
-  alert("Successfuly🌈");
+  const data = {
+    point: point.value,
+  };
+  api
+    .patch(`/update/${phone}`, data)
+    .then(alert(`Successfully🌈 Point:${point.value} Phone:${phone}`))
+    .catch((err) => console.log(err));
+
+  router.push({ name: "home" });
 };
 </script>
 
