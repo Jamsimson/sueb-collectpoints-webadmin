@@ -40,7 +40,7 @@ function onDecode(phone) {
   };
   api
     .patch(`/update/${phone}`, data)
-    .then((response) => console.log(response))
+    .then(alert("Successfully🌈"))
     .catch((err) => console.log(err));
 }
 function onLoaded() {
